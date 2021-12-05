@@ -135,8 +135,8 @@ public:
 		return out;
 	}
 
-	template<class T>
-	friend class Tnode;
+	friend class TNode;
+	friend class hospitalData;
 };
 #endif
 
@@ -146,11 +146,11 @@ public:
 class TNode
 {
 	patientRecord record;
-	patientRecord* leftChild, * rightChild;
+	TNode* leftChild, * rightChild;
 
 public:
 	// constructors of class
-	TNode(patientRecord P, patientRecord* left, patientRecord* right)
+	TNode(patientRecord P, TNode* left, TNode* right)
 		:record(P), leftChild(left), rightChild(right) {}
 	friend class hospitalData;
 };
@@ -161,11 +161,72 @@ public:
 #define HOSPITALDATA_H
 class hospitalData
 {
-	patientRecord* root;
+	TNode* root;
 	int size;
 
+	// private helper functions
+	void clear(TNode* ptr)
+	{
+		if (ptr != nullptr)
+		{
+			clear(ptr->leftChild);
+			clear(ptr->rightChild);
+			delete ptr;
+		}
+	}
+	void inorderPrintKeys(TNode* curr) const
+	{
+		if (curr != nullptr)
+		{
+			inorderPrintKeys(curr->leftChild); // visisting left child
+			cout << curr->record; // printing current data
+			inorderPrintKeys(curr->rightChild); // visiting right child
+		}
+	}
+
+
 public:
-	hospitalData()
+	hospitalData() // default constructor
 		:root(nullptr), size(0) {}
+	~hospitalData() // destructor of class
+	{
+		clear(this->root);
+		root = nullptr;
+	}
+	
+	// insertion
+	void insert(patientRecord P)
+	{
+		if (this->root == nullptr)
+		{
+			root = new TNode(P, nullptr, nullptr);
+		}
+		else if (root->record.id < P.id)
+		{
+			root = new TNode(P, root, root->rightChild);
+			root->rightChild = nullptr;
+		}
+		else
+		{
+			root = new TNode(P, root->leftChild, root);
+			root->leftChild = nullptr;
+		}
+		size++;
+	}
+
+	// printing all patients
+	void printAdmitted() // wrapper function
+	{
+		if (size == 0)
+			cout << "No records to print" << endl;
+		else 
+		{
+			cout << "------------- Patient Records -------------" << endl;
+			inorderPrintKeys(this->root);
+			cout << "Total Records : " << this->size << endl;
+			cout << "-------------------------------------------" << endl;
+		}
+	}
+
 };
 #endif

@@ -17,10 +17,15 @@ int main()
 	// functions for patient record testing
 	patientRecord p1(123, "saboor", date(17, 1, 2002), "none", 0);
 	patientRecord p2(345, "irtaza", "none", 1);
-	cout << p1;
-	cout << p2;
+	//cout << p1;
+	//cout << p2;
 
-	hospitalData h1;
+	hospitalData* h1 = nullptr;
+	h1 = new hospitalData();
+	h1->insert(p2);
+	h1->insert(p1);
+	h1->printAdmitted();
+	h1->~hospitalData();
 	system("pause");
 	return 0;
 }
