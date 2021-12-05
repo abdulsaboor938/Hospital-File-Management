@@ -15,10 +15,12 @@ int main()
 	temp_func(date(17, 1, 2002));
 
 	// functions for patient record testing
-	patientrecord p1(123, "saboor", date(17, 1, 2002), "none", 0);
-	patientrecord p2(345, "irtaza", "none", 1);
+	patientRecord p1(123, "saboor", date(17, 1, 2002), "none", 0);
+	patientRecord p2(345, "irtaza", "none", 1);
 	cout << p1;
 	cout << p2;
+
+	hospitalData h1;
 	system("pause");
 	return 0;
 }

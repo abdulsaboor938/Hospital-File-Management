@@ -155,3 +155,17 @@ public:
 	friend class hospitalData;
 };
 #endif
+
+// Implementation of Hospital Data class
+#ifndef HOSPITALDATA_H
+#define HOSPITALDATA_H
+class hospitalData
+{
+	patientRecord* root;
+	int size;
+
+public:
+	hospitalData()
+		:root(nullptr), size(0) {}
+};
+#endif
