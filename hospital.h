@@ -192,6 +192,7 @@ public:
 	{
 		clear(this->root);
 		root = nullptr;
+		size = 0;
 	}
 	
 	// insertion
@@ -212,6 +213,71 @@ public:
 			root->leftChild = nullptr;
 		}
 		size++;
+	}
+
+	// deletion
+	void remove(int const temp_id) // wrapper function
+	{
+		bool check;
+		this->remove(temp_id, this->root, check);
+		if (check)
+			this->size--;
+	}
+	void remove(int const x, TNode*& t, bool &check) // main deletion function
+	{
+		if (t == nullptr)
+		{
+			check = false;
+			return;
+		}
+		if (x < t->record.id)
+			remove(x, t->leftChild, check);
+		else if (t->record.id < x)
+			remove(x, t->rightChild, check);
+		else if (t->leftChild != nullptr && t->rightChild != nullptr)
+		{
+			t->record = findmin(t->rightChild)->record;
+			remove(t->record.id, t->rightChild, check);
+		}
+		else
+		{
+			TNode* oldNode = t;
+			if (t->leftChild != nullptr)
+				t = t->leftChild;
+			else
+				t = t->rightChild;
+			delete oldNode;
+			check = true;
+		}
+	}
+	TNode* findmin(TNode* t) // function to find successor
+	{
+		while (t->leftChild != nullptr)
+			t = t->leftChild;
+		return t;
+	}
+
+	// printing a record
+	void print(int const temp_id)
+	{
+		TNode* temp = this->root;
+		while (true)
+		{
+			if (temp == nullptr)
+			{
+				cout << "No record found for patient id: " << temp_id << endl;
+				return;
+			}
+			else if (temp->record.id < temp_id)
+				temp = temp->rightChild;
+			else if (temp_id < temp->record.id)
+				temp = temp->leftChild;
+			else
+			{
+				cout << temp->record;
+				return;
+			}
+		}
 	}
 
 	// printing all patients
