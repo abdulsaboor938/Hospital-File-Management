@@ -196,23 +196,44 @@ public:
 	}
 	
 	// insertion
-	void insert(patientRecord P)
+	//void insert(patientRecord P)
+	//{
+	//	if (this->root == nullptr)
+	//	{
+	//		root = new TNode(P, nullptr, nullptr);
+	//	}
+	//	else if (root->record.id < P.id)
+	//	{
+	//		root = new TNode(P, root, root->rightChild);
+	//		root->leftChild->rightChild = nullptr;
+	//	}
+	//	else
+	//	{
+	//		root = new TNode(P, root->leftChild, root);
+	//		root->rightChild->leftChild = nullptr;
+	//	}
+	//	size++;
+	//}
+
+	// insertion and swapping
+	void insert(patientRecord P) // wrapper for insertion function
 	{
-		if (this->root == nullptr)
+		this->insert(this->root, P);
+	}
+	void insert(TNode*& ptr, patientRecord P)
+	{
+		if (ptr == nullptr)
+			ptr = new TNode(P, nullptr, nullptr);
+		else if (ptr->record.id > P.id) // goto left child
 		{
-			root = new TNode(P, nullptr, nullptr);
+			insert(ptr->leftChild, P); // node is inserted
+			rightRotate(ptr);
 		}
-		else if (root->record.id < P.id)
+		else // goto right child
 		{
-			root = new TNode(P, root, root->rightChild);
-			root->leftChild->rightChild = nullptr;
+			insert(ptr->rightChild, P); // going to right child
+			leftRotate(ptr);
 		}
-		else
-		{
-			root = new TNode(P, root->leftChild, root);
-			root->rightChild->leftChild = nullptr;
-		}
-		size++;
 	}
 											
 	// deletion
@@ -292,6 +313,23 @@ public:
 			cout << "Total Records : " << this->size << endl;
 			cout << "-------------------------------------------" << endl;
 		}
+	}
+
+	// private helper fnctions
+private:
+	void rightRotate(TNode*& x)
+	{
+		TNode* y = x->leftChild;
+		x->leftChild = y->rightChild;
+		y->rightChild = x;
+		x = y;
+	}
+	void leftRotate(TNode*& x)
+	{
+		TNode* y = x->rightChild;
+		x->rightChild = y->leftChild;
+		y->leftChild = x;
+		x = y;
 	}
 
 };
