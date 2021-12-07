@@ -205,16 +205,16 @@ public:
 		else if (root->record.id < P.id)
 		{
 			root = new TNode(P, root, root->rightChild);
-			root->rightChild = nullptr;
+			root->leftChild->rightChild = nullptr;
 		}
 		else
 		{
 			root = new TNode(P, root->leftChild, root);
-			root->leftChild = nullptr;
+			root->rightChild->leftChild = nullptr;
 		}
 		size++;
 	}
-
+											
 	// deletion
 	void remove(int const temp_id) // wrapper function
 	{

@@ -15,16 +15,19 @@ int main()
 	//temp_func(date(17, 1, 2002));
 
 	// functions for patient record testing
-	patientRecord p1(123, "saboor", date(17, 1, 2002), "none", 0);
-	patientRecord p2(345, "irtaza", "none", 1);
+	patientRecord p1(1, "saboor", date(17, 1, 2002), "none", 0);
+	patientRecord p2(4, "irtaza", "none", 1);
+	patientRecord p3(3, "irtaza", "none", 1);
+
 	//cout << p1;
 	//cout << p2;
 
 	hospitalData* h1 = nullptr;
 	h1 = new hospitalData();
 	h1->printAdmitted();
-	h1->insert(p2);
 	h1->insert(p1);
+	h1->insert(p2);
+	h1->insert(p3);
 	h1->printAdmitted();
 	h1->print(123);
 	h1->print(000);
