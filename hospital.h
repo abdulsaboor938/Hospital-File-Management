@@ -1,8 +1,11 @@
 /*
+* Abdul Saboor
+* 20L-1113
+* BDS-3A1
+* 
 * This file contains all the classes required for the implementation of hospital's records
 */
 
-// Implementation of date class
 #include<iostream>
 #include<ctime>
 using namespace std;
