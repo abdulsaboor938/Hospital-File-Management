@@ -219,21 +219,7 @@ public:
 	void insert(patientRecord P) // wrapper for insertion function
 	{
 		this->insert(this->root, P);
-	}
-	void insert(TNode*& ptr, patientRecord P)
-	{
-		if (ptr == nullptr)
-			ptr = new TNode(P, nullptr, nullptr);
-		else if (ptr->record.id > P.id) // goto left child
-		{
-			insert(ptr->leftChild, P); // node is inserted
-			rightRotate(ptr);
-		}
-		else // goto right child
-		{
-			insert(ptr->rightChild, P); // going to right child
-			leftRotate(ptr);
-		}
+		this->size++;
 	}
 											
 	// deletion
@@ -315,8 +301,32 @@ public:
 		}
 	}
 
+	// searching
+	void search(patientRecord &ret_val, int temp_id, int temp_level)
+	{
+		if (!this->search(this->root, temp_id, temp_level, 0, ret_val))
+		{
+			cout << "The corresponding Id could not be found" << endl;
+		}
+	}
+
 	// private helper fnctions
 private:
+	void insert(TNode*& ptr, patientRecord P)
+	{
+		if (ptr == nullptr)
+			ptr = new TNode(P, nullptr, nullptr);
+		else if (ptr->record.id > P.id) // goto left child
+		{
+			insert(ptr->leftChild, P); // node is inserted
+			rightRotate(ptr);
+		}
+		else // goto right child
+		{
+			insert(ptr->rightChild, P); // going to right child
+			leftRotate(ptr);
+		}
+	}
 	void rightRotate(TNode*& x)
 	{
 		TNode* y = x->leftChild;
@@ -332,5 +342,33 @@ private:
 		x = y;
 	}
 
+	bool search(TNode*& ptr, int temp_id, int level, int level_check, patientRecord& ret_ptr)
+	{
+		if (ptr == nullptr)
+			return false;
+		else if (ptr->record.id == temp_id)
+		{
+			ret_ptr = ptr->record;
+			return true;
+		}
+		else if (ptr->record.id > temp_id)
+		{
+			if (search(ptr->leftChild, temp_id, level, (level_check+1), ret_ptr))
+			{
+				if (level_check >= level)
+					rightRotate(ptr);
+				return true;
+			}
+		}
+		else if (temp_id > ptr->record.id)
+		{
+			if (search(ptr->rightChild, temp_id, level, (level_check+1), ret_ptr))
+			{
+				if (level_check >= level)
+					leftRotate(ptr);
+				return true;
+			}
+		}
+	}
 };
 #endif
