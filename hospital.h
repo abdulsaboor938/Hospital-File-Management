@@ -195,26 +195,6 @@ public:
 		size = 0;
 	}
 	
-	// insertion
-	//void insert(patientRecord P)
-	//{
-	//	if (this->root == nullptr)
-	//	{
-	//		root = new TNode(P, nullptr, nullptr);
-	//	}
-	//	else if (root->record.id < P.id)
-	//	{
-	//		root = new TNode(P, root, root->rightChild);
-	//		root->leftChild->rightChild = nullptr;
-	//	}
-	//	else
-	//	{
-	//		root = new TNode(P, root->leftChild, root);
-	//		root->rightChild->leftChild = nullptr;
-	//	}
-	//	size++;
-	//}
-
 	// insertion and swapping
 	void insert(patientRecord P) // wrapper for insertion function
 	{
@@ -310,7 +290,20 @@ public:
 		}
 	}
 
-	// private helper fnctions
+	// Splitting function
+	void split()
+	{
+		int* temp_arr = new int[this->size];
+		inorderArray(this->root, temp_arr, 0);
+
+		int median = temp_arr[this->size / 2];
+		delete[] temp_arr;
+		// code to find median
+		patientRecord temp(this->root->record); // temporary copy of root for returning record
+		search(temp, median, 0);
+	}
+
+// private helper fnctions
 private:
 	void insert(TNode*& ptr, patientRecord P)
 	{
@@ -360,7 +353,7 @@ private:
 				return true;
 			}
 		}
-		else if (temp_id > ptr->record.id)
+		else
 		{
 			if (search(ptr->rightChild, temp_id, level, (level_check+1), ret_ptr))
 			{
@@ -368,6 +361,16 @@ private:
 					leftRotate(ptr);
 				return true;
 			}
+		}
+	}
+
+	void inorderArray(TNode* ptr, int *&arr, int id)
+	{
+		if (ptr != nullptr)
+		{
+			inorderArray(ptr->leftChild, arr, (id + 1));
+			*(arr + id) = ptr->record.id;
+			inorderArray(ptr->rightChild, arr, (id + 1));
 		}
 	}
 };
