@@ -296,11 +296,9 @@ public:
 	// Splitting function
 	void split()
 	{
-		int* temp_arr = new int[this->size];
-		inorderArray(this->root, temp_arr, 0);
-
-		int median = temp_arr[this->size / 2];
-		delete[] temp_arr;
+		int median_pos = size / 2;
+		int median = -1, temp_count = 0;
+		node_rec(this->root, temp_count, median_pos, median);
 		// code to find median
 		patientRecord temp(this->root->record); // temporary copy of root for returning record
 		search(temp, median, 0);
@@ -367,13 +365,18 @@ private:
 		}
 	}
 
-	void inorderArray(TNode* ptr, int *&arr, int id)
+	void node_rec(TNode* ptr, int& curr_count, int tally, int &ret_val) // node to give record of a desired node
 	{
 		if (ptr != nullptr)
 		{
-			inorderArray(ptr->leftChild, arr, (id + 1));
-			*(arr + id) = ptr->record.id;
-			inorderArray(ptr->rightChild, arr, (id + 1));
+			node_rec(ptr->leftChild, curr_count, tally, ret_val);
+			curr_count++;
+			if (curr_count == tally)
+			{
+				ret_val = ptr->record.id;
+				return;
+			}
+			node_rec(ptr->rightChild, curr_count, tally, ret_val);
 		}
 	}
 };

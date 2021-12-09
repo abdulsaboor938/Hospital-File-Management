@@ -38,6 +38,7 @@ int main()
 	h1->remove(3);
 	h1->print(123);
 	h1->print(000);
+	h1->split();
 	system("pause");
 	system("cls");
 	h1->printAdmitted();
