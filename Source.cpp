@@ -17,7 +17,7 @@ int main()
 	// functions for patient record testing
 	patientRecord p1(2, "saboor", date(17, 1, 2002), "none", 0);
 	patientRecord p2(4, "irtaza", "none", 1);
-	patientRecord p3(3, "irtaza", "none", 1);
+	patientRecord p3(3, "irtaza", "none", 0);
 	patientRecord p4(1, "irtaza", "none", 1);
 	patientRecord p5(10, "irtaza", "none", 1);
 
