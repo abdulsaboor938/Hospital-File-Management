@@ -177,13 +177,17 @@ class hospitalData
 			delete ptr;
 		}
 	}
-	void inorderPrintKeys(TNode* curr) const
+	void inorderPrintAdmitted(TNode* curr, int &count) const
 	{
 		if (curr != nullptr)
 		{
-			inorderPrintKeys(curr->leftChild); // visisting left child
-			cout << curr->record; // printing current data
-			inorderPrintKeys(curr->rightChild); // visiting right child
+			inorderPrintAdmitted(curr->leftChild, count); // visisting left child
+			if (curr->record.status == true)
+			{
+				count++;
+				cout << curr->record; // printing current data
+			}
+			inorderPrintAdmitted(curr->rightChild,count); // visiting right child
 		}
 	}
 
@@ -277,9 +281,13 @@ public:
 			cout << "No records to print" << endl;
 		else 
 		{
+			int temp_size = 0;
 			cout << "------------- Patient Records -------------" << endl;
-			inorderPrintKeys(this->root);
-			cout << "Total Records : " << this->size << endl;
+			inorderPrintAdmitted(this->root,temp_size);
+			if(temp_size>0)
+				cout << "Total Records : " << temp_size << endl;
+			else
+				cout << "No patients are currently admitted" << endl;
 			cout << "-------------------------------------------" << endl;
 		}
 	}
@@ -353,6 +361,7 @@ private:
 					rightRotate(ptr);
 				return true;
 			}
+			return false;
 		}
 		else
 		{
@@ -362,6 +371,7 @@ private:
 					leftRotate(ptr);
 				return true;
 			}
+			return false;
 		}
 	}
 
