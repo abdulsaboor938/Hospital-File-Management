@@ -32,13 +32,14 @@ int main()
 	h1->insert(p3);
 	h1->insert(p4);
 	h1->insert(p5);
-	h1->search(p5, 3, 2);
+	h1->search(p5, 3, 0);
 	cout << p5 << endl;
 	h1->printAdmitted();
-	h1->remove(3);
+	h1->remove(6);
 	h1->print(123);
 	h1->print(000);
-	h1->split();
+	hospitalData* temp = new hospitalData();
+	h1->split(*temp);
 	system("pause");
 	system("cls");
 	h1->printAdmitted();

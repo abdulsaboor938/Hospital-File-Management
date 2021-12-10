@@ -230,16 +230,16 @@ public:
 			remove(x, t->rightChild, check);
 		else if (t->leftChild != nullptr && t->rightChild != nullptr)
 		{
-			t->record = findmin(t->rightChild)->record;
+			t->record = findmax(t->leftChild)->record;
 			remove(t->record.id, t->rightChild, check);
 		}
 		else
 		{
 			TNode* oldNode = t;
-			if (t->leftChild != nullptr)
-				t = t->leftChild;
-			else
+			if (t->rightChild != nullptr)
 				t = t->rightChild;
+			else
+				t = t->leftChild;
 			delete oldNode;
 			t = nullptr;
 			check = true;
@@ -251,6 +251,13 @@ public:
 			t = t->leftChild;
 		return t;
 	}
+	TNode* findmax(TNode* t) // function to find successor
+	{
+		while (t->rightChild != nullptr)
+			t = t->rightChild;
+		return t;
+	}
+
 
 	// printing a record
 	void print(int const temp_id)
@@ -303,7 +310,7 @@ public:
 	}
 
 	// Splitting function
-	void split(hospitalData& ret_val)
+	void split()
 	{
 		int median_pos = size / 2;
 		int median = -1, temp_count = 0;
@@ -311,8 +318,6 @@ public:
 		// code to find median
 		patientRecord temp(this->root->record); // temporary copy of root for returning record
 		search(temp, median, 0);
-		if (this->root != nullptr && this->root->rightChild != nullptr)
-			ret_val.root = this->root->leftChild;
 	}
 
 // private helper fnctions
